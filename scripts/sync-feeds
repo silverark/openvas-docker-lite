@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2009-2019 Greenbone Networks GmbH
+# Copyright (C) 2009-2020 Greenbone Networks GmbH
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -20,7 +20,7 @@
 # This script updates the local Network Vulnerability Tests (NVTs) from the
 # Greenbone Security Feed (GSF) or the Greenbone Community Feed (GCF).
 
-VERSION=7.0.0
+VERSION=20.4
 
 # SETTINGS
 # ========
@@ -68,7 +68,7 @@ SELFTEST_FAIL=0
 # Port to use for synchronization. Default value is 24.
 PORT=24
 
-# Directory where the OpenVAS Scanner configuration is located
+# Directory where the OpenVAS configuration is located
 OPENVAS_SYSCONF_DIR="/usr/local/etc/openvas"
 
 # Location of the GSF Access Key
@@ -133,7 +133,7 @@ stderr_write ()
 }
 
 # Read the general information about the feed origin from
-# the file "plugin_feed_infoc.inc" inside the feed directory.
+# the file "plugin_feed_info.inc" inside the feed directory.
 get_feed_info ()
 {
   INFOFILE="$NVT_DIR/plugin_feed_info.inc"
@@ -174,9 +174,9 @@ else
   RESTRICTED=0
 
   if [ -z "$COMMUNITY_NVT_RSYNC_FEED" ]; then
-    COMMUNITY_NVT_RSYNC_FEED=rsync://feed.openvas.org:/nvt-feed
+    COMMUNITY_NVT_RSYNC_FEED=rsync://feed.community.greenbone.net:/nvt-feed
     # An alternative syntax which might work if the above doesn't:
-    # COMMUNITY_NVT_RSYNC_FEED=rsync@feed.openvas.org::/nvt-feed
+    # COMMUNITY_NVT_RSYNC_FEED=rsync@feed.community.greenbone.net::/nvt-feed
   fi
 
   if [ -z "$COMMUNITY_NVT_HTTP_FEED" ]; then
@@ -354,7 +354,7 @@ is_feed_current () {
 }
 
 do_wget_community_feed () {
-  TMP_NVT="$SYNC_TMP_DIR/openvas-feed-`date +%F`-$$.tar.bz2"
+  TMP_NVT="$SYNC_TMP_DIR/gcf-`date +%F`-$$.tar.bz2"
 
   log_info "Configured NVT http feed: $COMMUNITY_NVT_HTTP_FEED"
   log_info "Downloading to: $TMP_NVT"
@@ -386,7 +386,7 @@ do_wget_community_feed () {
 }
 
 do_curl_community_feed () {
-  TMP_NVT="$SYNC_TMP_DIR/openvas-feed-`date +%F`-$$.tar.bz2"
+  TMP_NVT="$SYNC_TMP_DIR/gcf-`date +%F`-$$.tar.bz2"
 
   log_info "Configured NVT http feed: $COMMUNITY_NVT_HTTP_FEED"
   log_info "Downloading to: $TMP_NVT"
